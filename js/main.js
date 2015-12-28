@@ -1,4 +1,13 @@
 $(document).ready(function(){
+
+	function showSetItem(name, qty, id, color){
+		var dom = '<div class="setitem">' +
+					'<h3>' + name + '</h3>' +
+					'<p>Quantity : ' + qty + '</p>' +
+					'</div>';
+			$('#result').append(dom);
+	}
+
 	$('#launchsearch').click(function(){
 		var setid = $('#setid').val();
 
@@ -14,10 +23,18 @@ $(document).ready(function(){
 				url:"http://cors.io/?u=https://alpha.bricklink.com/pages/clone/catalogitem_invtab.page?idItem=" + setid,
 				method:"GET",
 			}).done(function(data){
-				console.log(data);
+				//console.log(data);
 				var d = $(data);
-				d.filter('.pciinvItemRow').each(function(){
-					//console.log($(this));
+				console.log(d);
+				d.find('.pciinvItemRow').each(function(){
+					//we get each important info:
+					var name = $(this).find('td:nth-child(5) > b').text();
+					var qty = $(this).find('td:nth-child(3)').text();
+					var id = $(this).find('td:nth-child(4) > a').text();
+					var re = /idColor=([0-9]*)/gi;
+					var color = re.exec($(this).find('td:nth-child(4) > a').attr('href'))[1];
+					console.log(name + " " + qty + " " + id + " " + color);
+					showSetItem(name, qty, id, color);
 				});
 			});
 		});
