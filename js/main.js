@@ -1,5 +1,7 @@
+
+var Parser = new BLParser();
+
 $(document).ready(function(){
-	var Parser = new BLParser();
 	function showSetItem(item){
 		var dom = '<div class="setitem">' +
 					'<h3>' + item.name + '</h3>' +
@@ -21,7 +23,8 @@ $(document).ready(function(){
 							showSetItem(inventory[item]);
 							Parser.getItemPriceForQty(inventory[item], function(ok, value){
 								if(ok){
-									//update info with price
+									//update info with price from the cheapest store
+									
 								}
 								else{
 									

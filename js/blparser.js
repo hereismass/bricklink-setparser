@@ -3,6 +3,7 @@
 function BLParser(){
 	this.setInfo = null;
 	this.setInventory = null;
+	this.commonShops = null;
 	this.corsproxy = "https://crossorigin.me/";
 	var self = this;
 	this.getBLsetInfo = function(legoid, callback){
@@ -75,8 +76,17 @@ function BLParser(){
 			method:"GET",
 			dataType:"JSON"
 		}).done(function(data){
-			console.log(item.legoid + " " + item.blid + " " + item.color + " " + JSON.stringify(data.list, null, 4));
+			self.setInventory[item.blid].shops = data.list;
+			callback(true, data.list[0]);
 		});
+	}
+
+	this.getCommonShops = function(){
+		for(var item in self.setInventory){
+			for(var shop in self.setInventory[item]){
+				
+			}
+		}
 	}
 }
 
