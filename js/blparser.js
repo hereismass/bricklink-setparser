@@ -3,10 +3,11 @@
 function BLParser(){
 	this.setInfo = null;
 	this.setInventory = null;
+	this.corsproxy = "https://crossorigin.me/";
 	var self = this;
 	this.getBLsetInfo = function(legoid, callback){
 		$.ajax({
-			url:"http://cors.io/?u=https://alpha.bricklink.com/pages/clone/catalogitem.page?S=" + legoid,
+			url:self.corsproxy + "https://alpha.bricklink.com/pages/clone/catalogitem.page?S=" + legoid,
 			method:"GET"
 		}).done(function(data){
 			var re = /idItem\:\t*([0-9]*)/g;
@@ -23,7 +24,7 @@ function BLParser(){
 
 	this.getInventoryFromSet = function(blid, callback){
 		$.ajax({
-			url:"http://cors.io/?u=https://alpha.bricklink.com/pages/clone/catalogitem_invtab.page?idItem=" + blid,
+			url:self.corsproxy + "https://alpha.bricklink.com/pages/clone/catalogitem_invtab.page?idItem=" + blid,
 			method:"GET"
 		}).done(function(data){
 			//console.log(data);
@@ -68,7 +69,7 @@ function BLParser(){
 		var url = "https://alpha.bricklink.com/ajax/clone/catalogifs.ajax?itemid=" + item.blid + "&color=" + item.color + "&minqty=" + item.qty;
 		console.log(url);
 		$.ajax({
-			url:"http://cors.io/?u=" + url,
+			url:self.corsproxy + url,
 			method:"GET",
 			dataType:"JSON"
 		}).done(function(data){
