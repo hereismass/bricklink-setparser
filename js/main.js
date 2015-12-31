@@ -16,10 +16,10 @@ $(document).ready(function(){
 			if(ok){
 				Parser.getInventoryFromSet(blid, function(ok, inventory){
 					if(ok){
-						for(var i =0; i<inventory.length;i++){
+						for(var item in inventory){
 							//for each item we show it, and we get pricing
-							showSetItem(inventory[i]);
-							Parser.getItemPriceForQty(inventory[i], function(ok, value){
+							showSetItem(inventory[item]);
+							Parser.getItemPriceForQty(inventory[item], function(ok, value){
 								if(ok){
 									//update info with price
 								}

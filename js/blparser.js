@@ -13,6 +13,7 @@ function BLParser(){
 			var id = re.exec(data)[1];
 
 			if(id){
+				self.setInfo = id;
 				callback(true, id);
 			}
 			else{
@@ -28,7 +29,7 @@ function BLParser(){
 		}).done(function(data){
 			//console.log(data);
 			var d = $(data);
-			var inventoryArray = [];
+			var inventory = {};
 			d.find('.pciinvItemRow').each(function(){
 				//we get each important info:
 				var name = $(this).find('td:nth-child(5) > b').text();
@@ -52,11 +53,12 @@ function BLParser(){
 					imglink:imglink
 				};
 
-				inventoryArray.push(item);
+				inventory[blid] = item;
 			});
 
-			if(inventoryArray.length > 0){
-				callback(true, inventoryArray);
+			if(inventory !== {}){
+				self.setInventory = inventory;
+				callback(true, inventory);
 			}
 			else{
 				callback(false);
