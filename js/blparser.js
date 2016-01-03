@@ -3,7 +3,7 @@
 function BLParser(){
 	this.setInfo = null;
 	this.setInventory = null;
-	this.commonShops = null;
+	this.commonShops = {};
 	this.corsproxy = "https://crossorigin.me/";
 	var self = this;
 	this.getBLsetInfo = function(legoid, callback){
@@ -55,7 +55,7 @@ function BLParser(){
 					imglink:imglink
 				};
 
-				inventory[blid] = item;
+				inventory[blid + "-" + color] = item;
 			});
 
 			if(inventory !== {}){
@@ -76,17 +76,28 @@ function BLParser(){
 			method:"GET",
 			dataType:"JSON"
 		}).done(function(data){
-			self.setInventory[item.blid].shops = data.list;
+			self.setInventory[item.blid + "-" + item.color].shops = data.list;
 			callback(true, data.list[0]);
 		});
 	}
 
 	this.getCommonShops = function(){
 		for(var item in self.setInventory){
-			for(var shop in self.setInventory[item]){
-				
+			console.log("item : " + item);
+			for(var shop in self.setInventory[item].shops){
+				//we add all the shops in the array, with the items available
+				console.log("shop : " + shop + " username : " + self.setInventory[item].shops[shop].strSellerUsername + " " + self.commonShops[self.setInventory[item].shops[shop].strSellerUsername]);
+				if(!self.commonShops[self.setInventory[item].shops[shop].strSellerUsername]){
+					console.log("caca");
+					self.commonShops[self.setInventory[item].shops[shop].strSellerUsername] = [item];
+				}
+				else{
+					console.log("prout");
+					self.commonShops[self.setInventory[item].shops[shop].strSellerUsername].push(item);
+				}
 			}
 		}
+		console.log("array : " + JSON.stringify(self.commonShops));
 	}
 }
 
